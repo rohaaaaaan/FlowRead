@@ -1,0 +1,1 @@
+FlowRead: A modern, distraction-free speed reading app for Web. Supports PDF/TXT, RSVP & Karaoke modes, and full visual customization (Themes, WPM, Focus Mode). Built with Vanilla JS.

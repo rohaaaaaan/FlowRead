@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowRead - Speed Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- PDF.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Book Preview -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>FlowRead</h2>
+                <div class="file-upload-wrapper">
+                    <button id="uploadBtn" class="primary-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Open Book
+                    </button>
+                    <input type="file" id="fileInput" accept=".txt,.pdf" hidden>
+                </div>
+            </div>
+
+            <div class="book-preview-container" id="bookPreview">
+                <div class="placeholder-text">
+                    <p>No book loaded.</p>
+                    <p>Upload a .txt or .pdf file to begin.</p>
+                </div>
+                <!-- Content will be injected here -->
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="stats">
+                    <span id="wpmDisplay">300 WPM</span>
+                    <span id="progressDisplay">0%</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Stage: Reading Area -->
+        <main class="main-stage">
+            <div class="reading-display-wrapper">
+                <div class="focus-indicator"></div>
+                <div id="readingDisplay" class="reading-display">
+                    <div class="scrolling-text-line" id="scrollingLine">
+                        <span class="word pending">FlowRead</span>
+                        <span class="word active">Ready</span>
+                        <span class="word pending">...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls-bar">
+                <div class="control-group">
+                    <button id="focusModeBtn" class="icon-btn" title="Focus Mode">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                    <button id="restartBtn" class="icon-btn" title="Restart">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 4v6h6"></path>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        </svg>
+                    </button>
+                    <button id="playPauseBtn" class="play-btn" title="Play/Pause">
+                        <svg class="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"
+                            stroke="none">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg class="pause-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"
+                            stroke="none" style="display:none;">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <select id="readingModeSelect" class="settings-select" title="Reading Mode">
+                        <option value="scrolling">Scrolling</option>
+                        <option value="static">Static (Karaoke)</option>
+                    </select>
+                    <select id="highlightStyleSelect" class="settings-select" title="Highlight Style">
+                        <option value="focus">Focus (Dim)</option>
+                        <option value="highlight">Highlight (Color)</option>
+                        <option value="underline">Underline</option>
+                    </select>
+                    <select id="themeSelect" class="settings-select" title="Background Theme">
+                        <option value="dark">Dark Theme</option>
+                        <option value="light">Light Theme</option>
+                        <option value="sepia">Sepia Theme</option>
+                        <option value="navy">Navy Theme</option>
+                    </select>
+                    <input type="color" id="highlightColorPicker" class="color-picker-input" value="#03dac6"
+                        title="Highlight Color">
+                </div>
+
+                <div class="control-group range-group">
+                    <label for="speedRange">Speed</label>
+                    <input type="range" id="speedRange" min="100" max="1000" step="50" value="300">
+                </div>
+
+                <div class="control-group range-group wide">
+                    <label for="progressRange">Timeline</label>
+                    <input type="range" id="progressRange" min="0" max="100" value="0">
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

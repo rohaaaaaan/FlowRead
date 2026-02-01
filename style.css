@@ -1,0 +1,452 @@
+:root {
+    /* Default Dark Theme */
+    --bg-app: #121212;
+    --bg-sidebar: #1a1a1a;
+    --bg-controls: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-color: #bb86fc;
+    --accent-hover: #9955e8;
+    --highlight-color: #03dac6;
+
+    --font-ui: 'Inter', sans-serif;
+    --font-reader: 'Inter', sans-serif;
+}
+
+/* Theme: Light */
+body.theme-light {
+    --bg-app: #ffffff;
+    --bg-sidebar: #f5f5f5;
+    --bg-controls: #f0f0f0;
+    --text-primary: #121212;
+    --text-secondary: #555555;
+    --accent-color: #6200ee;
+    --accent-hover: #3700b3;
+}
+
+/* Theme: Sepia */
+body.theme-sepia {
+    --bg-app: #f4ecd8;
+    --bg-sidebar: #e9e0c9;
+    --bg-controls: #e4d8b8;
+    --text-primary: #433422;
+    --text-secondary: #7c6851;
+    --accent-color: #a05a2c;
+    --accent-hover: #783f1a;
+}
+
+/* Theme: Navy */
+body.theme-navy {
+    --bg-app: #0a192f;
+    --bg-sidebar: #112240;
+    --bg-controls: #172a45;
+    --text-primary: #e6f1ff;
+    --text-secondary: #8892b0;
+    --accent-color: #64ffda;
+    --accent-hover: #00bfa5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-ui);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    margin-bottom: 2rem;
+}
+
+.sidebar-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.primary-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.primary-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.book-preview-container {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-right: 0.5rem;
+    /* Custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: #444 transparent;
+}
+
+.book-preview-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.book-preview-container::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 3px;
+}
+
+/* Highlight current paragraph in preview - implementation TODO */
+.preview-paragraph.active {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 2px solid var(--accent-color);
+    padding-left: 0.5rem;
+}
+
+.sidebar-footer {
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Main Reading Stage */
+.main-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--bg-app);
+}
+
+.reading-display-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Center horizontally */
+    position: relative;
+    padding: 0 4rem;
+    overflow: hidden;
+}
+
+.reading-display {
+    width: 100%;
+    /* Reduced window size to 50% */
+    max-width: 50vw;
+    /* We want a fixed height line area */
+    height: 120px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    zoom: 1.1;
+    /* 110% Window scaling request */
+}
+
+/* ... existing code ... */
+
+.reading-display.mode-static .scrolling-text-line {
+    /* In static mode, we don't translate/scroll */
+    transform: none !important;
+    justify-content: center;
+    width: 100%;
+    /* Wrap rules */
+    white-space: normal;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.scrolling-text-line {
+    font-size: 4rem;
+    /* Big screen big text */
+    font-weight: 700;
+    white-space: nowrap;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    /* Ensure vertical alignment */
+    gap: 0.4ch;
+    /* JS controls transform now */
+}
+
+.word {
+    opacity: 0.3;
+    transition: opacity 0.1s;
+}
+
+.word.active {
+    opacity: 1;
+    color: var(--highlight-color);
+    transform: scale(1.05);
+}
+
+.word.read {
+    opacity: 0.5;
+    /* Fade out read words slightly */
+}
+
+/* Controls Bar */
+.controls-bar {
+    height: 80px;
+    background-color: var(--bg-controls);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 0 2rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn,
+.play-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s, color 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--accent-color);
+}
+
+.play-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--text-primary);
+    color: var(--bg-app);
+}
+
+.play-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--accent-color);
+}
+
+.range-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.range-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.range-group.wide {
+    flex: 1;
+    max-width: 400px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #444;
+    border-radius: 2px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* Settings Selects */
+.settings-select {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Translucent */
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-ui);
+    cursor: pointer;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.settings-select:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.settings-select option {
+    background-color: var(--bg-controls);
+    color: var(--text-primary);
+}
+
+.color-picker-input {
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.color-picker-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+/* Reading Modes */
+.reading-display.mode-static {
+    justify-content: center;
+}
+
+.reading-display.mode-static .scrolling-text-line {
+    /* In static mode, we don't translate/scroll */
+    transform: none !important;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Highlight Styles */
+
+/* Style: Focus (Default) - Opacity change */
+.style-focus .word {
+    opacity: 0.3;
+}
+
+.style-focus .word.active {
+    opacity: 1;
+    color: var(--highlight-color);
+    transform: scale(1.1);
+}
+
+/* Style: Highlight - Background color */
+.style-highlight .word {
+    opacity: 1;
+    /* Reset opacity */
+    padding: 0 4px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    /* Slightly dimmer normal text */
+}
+
+.style-highlight .word.active {
+    background-color: var(--highlight-color);
+    color: #000;
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+/* Style: Underline - Text Decoration */
+.style-underline .word {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+.style-underline .word.active {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-color);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 6px;
+    color: var(--highlight-color);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+        /* Hide preview on mobile or make it a drawer */
+    }
+
+    .scrolling-text-line {
+        font-size: 2.5rem;
+    }
+
+    .controls-bar {
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+/* Focus Mode */
+body.focus-mode .sidebar {
+    display: none;
+}
+
+body.focus-mode .controls-bar {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+body.focus-mode .controls-bar:hover {
+    opacity: 1;
+}
+
+body.focus-mode .reading-display {
+    max-width: 60vw;
+    /* Slightly wider in focus mode for balance? Or keep 50vw? Let's keep 50vw as requested previously, or maybe let it breathe. User said "just wrap everything in 110% window", implying zoom. keeping it consistent. */
+}
