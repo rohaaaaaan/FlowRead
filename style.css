@@ -511,20 +511,36 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 
     .controls-bar {
-        gap: 1rem;
-        padding: 0 1rem;
-        overflow-x: auto;
-        /* Allow horizontal scroll */
-        justify-content: flex-start;
-        /* Align start so you can scroll */
+        gap: 0.5rem;
+        /* Tighter gap for wrapped items */
+        padding: 1rem;
+        flex-wrap: wrap;
+        /* WRAP items so they don't hide */
+        overflow-x: visible;
+        /* No scroll, show everything */
+        justify-content: center;
         height: auto;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-bottom: 1.5rem;
+        /* Extra padding for bottom */
     }
 
     .control-group {
         flex-shrink: 0;
-        /* Prevent shrinking */
+        justify-content: center;
+    }
+
+    /* Force sliders to take full width on mobile */
+    .range-group {
+        flex: 1 1 100%;
+        /* Grow to full width */
+        width: 100%;
+        order: 10;
+        /* Move to bottom */
+    }
+
+    /* Wrap the settings dropdowns if needed */
+    .control-group:nth-child(2) {
+        flex-wrap: wrap;
     }
 }
 
