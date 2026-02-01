@@ -28,6 +28,10 @@ class SpeedReader {
             themeSelect: document.getElementById('themeSelect'),
             colorPicker: document.getElementById('highlightColorPicker'),
             focusModeBtn: document.getElementById('focusModeBtn'),
+            menuBtn: document.getElementById('menuBtn'),
+            sidebar: document.querySelector('.sidebar'),
+            sidebarCloseBtn: document.getElementById('sidebarCloseBtn'),
+            sidebarOverlay: document.getElementById('sidebarOverlay'),
         };
 
         this.initEventListeners();
@@ -82,6 +86,27 @@ class SpeedReader {
             this.elements.focusModeBtn.addEventListener('click', () => {
                 document.body.classList.toggle('focus-mode');
             });
+        }
+
+        if (this.elements.menuBtn) {
+            this.elements.menuBtn.addEventListener('click', () => {
+                this.elements.sidebar.classList.add('open');
+                if (this.elements.sidebarOverlay) this.elements.sidebarOverlay.classList.add('active');
+            });
+        }
+
+        // Close Sidebar logic
+        const closeSidebar = () => {
+            this.elements.sidebar.classList.remove('open');
+            if (this.elements.sidebarOverlay) this.elements.sidebarOverlay.classList.remove('active');
+        };
+
+        if (this.elements.sidebarCloseBtn) {
+            this.elements.sidebarCloseBtn.addEventListener('click', closeSidebar);
+        }
+
+        if (this.elements.sidebarOverlay) {
+            this.elements.sidebarOverlay.addEventListener('click', closeSidebar);
         }
 
         // Keyboard shortcuts

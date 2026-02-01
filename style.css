@@ -429,6 +429,11 @@ input[type="range"]::-webkit-slider-thumb:hover {
     padding: 8px;
 }
 
+.sidebar-close-btn {
+    display: none;
+    /* Hidden on desktop */
+}
+
 @media (max-width: 768px) {
     .mobile-menu-btn {
         display: flex;
@@ -454,7 +459,40 @@ input[type="range"]::-webkit-slider-thumb:hover {
         /* Ensure it's visible when open */
     }
 
-    /* Overlay for sidebar (optional improvement for later, for now just sidebar) */
+    /* Sidebar Overlay */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        /* Below sidebar, above content */
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar.open~.sidebar-overlay,
+    .sidebar-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Close Button inside Sidebar */
+    .sidebar-close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: block;
+        /* Visible on mobile */
+        color: var(--text-secondary);
+    }
+
+    .sidebar-close-btn:hover {
+        color: var(--text-primary);
+    }
 
     .reading-display {
         max-width: 90vw;
@@ -462,10 +500,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 
     .scrolling-text-line {
-        font-size: 2rem;
-        /* Slightly smaller to fit more */
-        flex-wrap: wrap;
-        /* Ensure wrapping happens if needed even in scrolling mode? No, scrolling needs line. Static needs wrap. */
+        font-size: 1.8rem;
+        /* Adjusted for better fit */
+        line-height: 1.4;
     }
 
     .reading-display.mode-scrolling .scrolling-text-line {

@@ -20,8 +20,17 @@
 
 <body>
     <div class="app-container">
+        <!-- Sidebar Overlay (Mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
         <!-- Sidebar: Book Preview -->
         <aside class="sidebar">
+            <button id="sidebarCloseBtn" class="icon-btn sidebar-close-btn" title="Close Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <div class="sidebar-header">
                 <h2>FlowRead</h2>
                 <div class="file-upload-wrapper">
